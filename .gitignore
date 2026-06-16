@@ -9,3 +9,4 @@ target/
 # Otros
 *.jar
 *.class
+.metadata/
