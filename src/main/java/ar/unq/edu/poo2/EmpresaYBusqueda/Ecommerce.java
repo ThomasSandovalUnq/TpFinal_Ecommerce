@@ -25,6 +25,14 @@ public class Ecommerce {
     public List<ItemCatalogo> buscarEnCatalogo(CriterioBusqueda criterio) {
         return buscador.buscar(this.catalogoMaestro, criterio);
     }
+    
+    public void setRedDeSucursales(List<Sucursal> rs) {
+    	this.redDeSucursales = rs;
+    }
+    
+    public void agregarSucursal(Sucursal s) {
+    	this.redDeSucursales.add(s);
+    }
 
 	public List<ItemCatalogo> getCatalogoMaestro() {
 		return catalogoMaestro;
