@@ -1,0 +1,11 @@
+# Archivos de Eclipse
+.classpath
+.project
+.settings/
+
+# Archivos compilados de Maven
+target/
+
+# Otros
+*.jar
+*.class

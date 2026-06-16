@@ -1,5 +1,6 @@
 package ar.unq.edu.poo2.Pedido;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import ar.unq.edu.poo2.Catalogo.ItemCatalogo;
@@ -7,11 +8,13 @@ import ar.unq.edu.poo2.Catalogo.ItemCatalogo;
 public class Pedido {
 
     private EstadoPedido estado;
-    private List<ItemCatalogo> items;
+    private List<LineaDePedido> lineas;
+    private LocalDate fechaEntrega; // se setea al entregar; null mientras no se entregó
 
     public Pedido() {
         this.estado = new Borrador();
-        this.items = new ArrayList<>();
+        this.lineas = new ArrayList<>();
+        this.fechaEntrega = null;
     }
 
     // --- Delegación al estado (Patrón State) ---
@@ -28,13 +31,55 @@ public class Pedido {
     public EstadoPedido getEstado() { return this.estado; }
 
     // --- Manejo interno de ítems (lo usan los estados que lo permiten) ---
-    public void agregarItemInterno(ItemCatalogo item) { this.items.add(item); }
-    public void quitarItemInterno(ItemCatalogo item)  { this.items.remove(item); }
-    public List<ItemCatalogo> getItems() { return this.items; }
 
-    // --- Acciones con efecto colateral (tercera vía: lógica mínima por ahora) ---
-    public void decrementarStock() { /* TODO: delegar a Stock cuando se defina */ }
-    public void incrementarStock() { /* TODO: delegar a Stock cuando se defina */ }
-    public void reembolsarTotal()  { /* TODO: delegar a pago cuando se defina */ }
-    public void reembolsarParcial(){ /* TODO: reembolso solo del producto, sin envío */ }
+    // Agrega una unidad del ítem: si ya hay línea, incrementa cantidad; si no, crea una.
+    public void agregarItemInterno(ItemCatalogo item) {
+        LineaDePedido existente = this.buscarLinea(item);
+        if (existente != null) {
+            existente.incrementarCantidad();
+        } else {
+            this.lineas.add(new LineaDePedido(item, 1));
+        }
+    }
+
+    // CONSULTAR: interpretamos que "quitar ítem" saca UNA unidad, no todo el ítem.
+    // Si la cantidad llega a 0, se elimina la línea.
+    public void quitarItemInterno(ItemCatalogo item) {
+        LineaDePedido linea = this.buscarLinea(item);
+        if (linea != null) {
+            linea.decrementarCantidad();
+            if (linea.getCantidad() == 0) {
+                this.lineas.remove(linea);
+            }
+        }
+    }
+
+    private LineaDePedido buscarLinea(ItemCatalogo item) {
+        return this.lineas.stream()
+                .filter(l -> l.getItem().equals(item))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public List<LineaDePedido> getLineas() { return this.lineas; }
+
+    // --- Venta: captura de precios y fecha ---
+
+    // Se invoca al confirmar: congela el precio de cada línea.
+    public void capturarPrecios() {
+        this.lineas.forEach(LineaDePedido::capturarPrecio);
+    }
+
+    // Se invoca al entregar: registra la fecha de entrega.
+    public void registrarEntrega() {
+        this.fechaEntrega = LocalDate.now();
+    }
+
+    public LocalDate getFechaEntrega() { return this.fechaEntrega; }
+
+    // --- Acciones con efecto colateral (stubs - tercera vía) ---
+    public void decrementarStock() { /* TODO: delegar a Sucursal */ }
+    public void incrementarStock() { /* TODO: delegar a Sucursal */ }
+    public void reembolsarTotal()  { /* TODO: generar NotaCredito */ }
+    public void reembolsarParcial(){ /* TODO: reembolso solo producto */ }
 }

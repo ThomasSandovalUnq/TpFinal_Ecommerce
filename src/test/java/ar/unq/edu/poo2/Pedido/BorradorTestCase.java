@@ -39,15 +39,16 @@ public class BorradorTestCase {
     @Test
     public void testPermiteAgregarItems() {
         pedido.agregarItem(itemMock);
-        assertEquals(1, pedido.getItems().size());
-        assertTrue(pedido.getItems().contains(itemMock));
+        assertEquals(1, pedido.getLineas().size());
+        assertEquals(itemMock, pedido.getLineas().get(0).getItem());
+        assertEquals(1, pedido.getLineas().get(0).getCantidad());
     }
 
     @Test
     public void testPermiteQuitarItems() {
         pedido.agregarItem(itemMock);
         pedido.quitarItem(itemMock);
-        assertTrue(pedido.getItems().isEmpty());
+        assertTrue(pedido.getLineas().isEmpty());
     }
 
     @Test
@@ -77,5 +78,13 @@ public class BorradorTestCase {
     @Test
     public void testNoPuedeIniciarPreparacion() {
         assertThrows(OperacionInvalidaException.class, () -> pedido.iniciarPreparacion());
+    }
+    
+    @Test
+    public void testAgregarElMismoItemDosVecesIncrementaLaCantidad() {
+        pedido.agregarItem(itemMock);
+        pedido.agregarItem(itemMock);
+        assertEquals(1, pedido.getLineas().size(), "Debe haber una sola línea.");
+        assertEquals(2, pedido.getLineas().get(0).getCantidad(), "La cantidad debe ser 2.");
     }
 }

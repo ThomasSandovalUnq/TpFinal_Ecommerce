@@ -7,9 +7,10 @@ public class Enviado extends EstadoBase {
 
     @Override
     public void entregar(Pedido pedido) {
+        pedido.registrarEntrega();
         pedido.setEstado(new Entregado());
     }
-
+    
     @Override
     public void cancelar(Pedido pedido) {
     	 // Cancelar desde ENVIADO: reembolso parcial (solo producto, sin envío).
