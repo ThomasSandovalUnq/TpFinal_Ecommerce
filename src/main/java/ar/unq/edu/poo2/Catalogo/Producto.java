@@ -3,6 +3,8 @@ package ar.unq.edu.poo2.Catalogo;
 import java.util.HashMap;
 import java.util.Map;
 
+import ar.unq.edu.poo2.Reporte.ReporteVisitor;
+
 public class Producto extends ItemCatalogo {
 	private String sku;
 	private String marca;
@@ -55,6 +57,11 @@ public class Producto extends ItemCatalogo {
 				throw new ValidacionProducto("El atributo dinámico '" + entry.getKey() + "' no tiene un valor asignado.");
 			}
 		}
+	}
+	
+	@Override
+	public void aceptar(ReporteVisitor visitor) {
+	    visitor.visitar(this);
 	}
 	
 	

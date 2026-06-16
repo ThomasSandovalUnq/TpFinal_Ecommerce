@@ -3,6 +3,8 @@ package ar.unq.edu.poo2.Catalogo;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.unq.edu.poo2.Reporte.ReporteVisitor;
+
 public class Paquete extends ItemCatalogo {
 	private List<ItemCatalogo> pack;
 	private double descuento; 
@@ -32,6 +34,9 @@ public class Paquete extends ItemCatalogo {
 		return sumaFinalItems * (1 - (this.getDescuento() / 100.0));
 	}
 	
-	
+	@Override
+	public void aceptar(ReporteVisitor visitor) {
+	    visitor.visitar(this);
+	}
 	
 }
