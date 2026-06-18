@@ -46,20 +46,7 @@ public class MetodoPagoTransferenciaTestCase {
 
         verify(api).transferir(5000);
     }
-    @Test
-    void procesarPagoDebeValidarYTransferir1() {
 
-        when(api.validarCuenta(anyString(), anyString()))
-                .thenReturn(true);
-
-        when(api.transferir(5000))
-                .thenReturn("TRA-002");
-
-        transferencia.procesarPago();
-
-        verify(api).validarCuenta(anyString(), anyString());
-        verify(api).transferir(5000);
-    }
     @Test
     void cuentaInvalidaDebeLanzarExcepcion() {
 
@@ -71,5 +58,6 @@ public class MetodoPagoTransferenciaTestCase {
         assertThrows(
                 RuntimeException.class,
                 () -> transferencia.procesarPago());
+        verify(api, never()).transferir(anyDouble());
     }
 }

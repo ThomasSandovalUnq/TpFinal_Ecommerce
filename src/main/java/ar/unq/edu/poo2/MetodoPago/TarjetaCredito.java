@@ -32,17 +32,13 @@ public class TarjetaCredito extends MetodoPago {
         System.out.println("Cupón generado");	// preguntar sobe como debemos notificar	
 	}
 
-    public TarjetaCredito(double monto,
-            String string,
-            String numero,
-            LocalDate localDate,
-            ApiTarjetaCredito api2) {
-
-    		super(monto);
-    		this.numero = string;
-    		this.cvv = numero;
-    		this.vencimiento = localDate;
-    		this.api = api2;
+    public TarjetaCredito(double monto, String numero, String cvv,
+            LocalDate vencimiento, ApiTarjetaCredito api) {
+    	super(monto);
+    	this.numero = numero;
+    	this.cvv = cvv;
+    	this.vencimiento = vencimiento;
+    	this.api = api;
     }
 	public String getNumero() {
 		return numero;
