@@ -13,11 +13,11 @@ public class TransferenciaBancaria extends MetodoPago {
             ApiTransferenciaBancaria api) {
 
         super(monto);
-        this.cbu = cbu;
-        this.alias = alias;
-        this.api = api;
+        this.setCbu(cbu);
+        this.setAlias(alias);
+        this.setApi(api);
     }
-    @Override
+	@Override
     protected void validarDatos() {
         if (!api.validarCuenta(
                 cbu,
@@ -41,4 +41,25 @@ public class TransferenciaBancaria extends MetodoPago {
         System.out.println( //consultar sobre las notificaciones de pago, como modelarlas
                 "Comprobante CBU generado");
     }
+    private void setApi(ApiTransferenciaBancaria api) {
+    	this.api = api;
+ 	}
+ 	private void setAlias(String alias) {
+ 		this.alias = alias;
+ 	}
+ 	private void setCbu(String cbu) {
+ 		this.cbu = cbu;
+ 	}
+    
+ 	public String getCbu() {
+ 		return cbu;
+ 	}
+ 	public String getAlias() {
+ 		return alias;
+ 	}
+ 	public ApiTransferenciaBancaria getApi() {
+ 		return api;
+ 	}
+    
+    
 }

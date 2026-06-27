@@ -1,11 +1,11 @@
 package ar.unq.edu.poo2.MetodoPago;
 
 public abstract class MetodoPago {
-	protected double monto; // preguntar si esta bien poner el atributo monto que sepa cuanto se gasto en un pedido 
+	protected double monto;  
 	protected String codigoTransaccion;
 	
 	public MetodoPago(double monto) {
-		this.monto = monto;
+		this.setMonto(monto);
 	}
 
 	public void procesarPago() {
@@ -17,7 +17,7 @@ public abstract class MetodoPago {
 
 	protected  void notificarResultado() {  
 		System.out.println("Transacción registrada: "
-	            + this.codigoTransaccion); // preguntar sobe como debemos notificar 
+	            + this.codigoTransaccion);
 	}
 
 	protected abstract void ejecutarTransaccion();
@@ -25,4 +25,12 @@ public abstract class MetodoPago {
 	protected abstract void reservarFondos();
 
 	protected abstract void validarDatos();
+	
+	public void setMonto(double monto) {
+		this.monto = monto;
+	}
+	public double getMonto(double monto) {
+		return monto;
+	}
+	
 }

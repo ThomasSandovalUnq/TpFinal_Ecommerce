@@ -5,7 +5,8 @@ public class BilleteraVirtual extends MetodoPago {
 
     public BilleteraVirtual(double monto, ApiBilleteraVirtual api) {
         super(monto);
-        this.api = api;
+        this.setApi(api);
+        ;
     }
 
     @Override
@@ -24,7 +25,13 @@ public class BilleteraVirtual extends MetodoPago {
     protected void ejecutarTransaccion() {
         codigoTransaccion = api.acreditar(monto);
     }
+	public ApiBilleteraVirtual getApi() {
+		return api;
+	}
 
+	public void setApi(ApiBilleteraVirtual api) {
+		this.api = api;
+	}
 
     // Usa la implementación por defecto de notificarResultado()
 }

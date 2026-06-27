@@ -1,5 +1,6 @@
 package ar.unq.edu.poo2.MetodoPago;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -18,7 +19,7 @@ public class MetodoPagoTarjetaTestCase {
     private ApiTarjetaCredito api;
 
     private TarjetaCredito tarjeta;
-
+   
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -30,6 +31,8 @@ public class MetodoPagoTarjetaTestCase {
                 LocalDate.of(2030, 12, 31),
                 api);
     }
+
+
 
     @Test
     void procesarPagoDebeValidarReservarYTransferir() {
@@ -67,4 +70,23 @@ public class MetodoPagoTarjetaTestCase {
                 RuntimeException.class,
                 () -> tarjeta.procesarPago());
     }
+    @Test
+    public void testGetters() {
+    	
+        assertEquals("123456789", tarjeta.getNumero());
+        assertEquals("123", tarjeta.getCvv());
+        assertEquals(LocalDate.of(2030, 12, 31), tarjeta.getVencimiento());
+        assertEquals(api, tarjeta.getApi());
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

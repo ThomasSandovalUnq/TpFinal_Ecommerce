@@ -35,10 +35,10 @@ public class TarjetaCredito extends MetodoPago {
     public TarjetaCredito(double monto, String numero, String cvv,
             LocalDate vencimiento, ApiTarjetaCredito api) {
     	super(monto);
-    	this.numero = numero;
-    	this.cvv = cvv;
-    	this.vencimiento = vencimiento;
-    	this.api = api;
+    	this.setNumero(numero);
+    	this.setCvv(cvv);
+    	this.setVencimiento(vencimiento);
+    	this.setApi(api);
     }
 	public String getNumero() {
 		return numero;

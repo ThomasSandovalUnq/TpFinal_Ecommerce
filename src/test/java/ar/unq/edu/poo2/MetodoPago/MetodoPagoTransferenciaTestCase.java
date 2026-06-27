@@ -1,5 +1,6 @@
 package ar.unq.edu.poo2.MetodoPago;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +27,12 @@ public class MetodoPagoTransferenciaTestCase {
                         "MI_ALIAS",
                         api);
     }
-
+    @Test
+    void testGetter() {
+    	assertEquals(api, transferencia.getApi());
+    	assertEquals("123456", transferencia.getCbu());
+    	assertEquals("MI_ALIAS", transferencia.getAlias());
+    }
     @Test
     void procesarPagoDebeValidarYTransferir() {
 

@@ -1,5 +1,6 @@
 package ar.unq.edu.poo2.MetodoPago;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,10 @@ public class MetodoPagoBilleteraVirtualTestCase {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         billetera = new BilleteraVirtual(1500, api); // sin saldo
+    }
+    @Test
+    void testGetters() {
+    	assertEquals(api, billetera.getApi());
     }
 
     @Test
@@ -40,4 +45,19 @@ public class MetodoPagoBilleteraVirtualTestCase {
         verify(api, never()).bloquearSaldo(anyDouble());
         verify(api, never()).acreditar(anyDouble());
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
