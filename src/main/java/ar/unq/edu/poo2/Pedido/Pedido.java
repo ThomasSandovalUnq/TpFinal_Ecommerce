@@ -4,17 +4,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import ar.unq.edu.poo2.Catalogo.ItemCatalogo;
+import ar.unq.edu.poo2.Notificaciones.ObserverPedido;
 
 public class Pedido {
 
     private EstadoPedido estado;
     private List<LineaDePedido> lineas;
     private LocalDate fechaEntrega; // se setea al entregar; null mientras no se entregó
-
+    private ArrayList<ObserverPedido> observersNotis;
     public Pedido() {
         this.estado = new Borrador();
         this.lineas = new ArrayList<>();
         this.fechaEntrega = null;
+        this.observersNotis = new ArrayList<>();
     }
 
     // --- Delegación al estado (Patrón State) ---
@@ -82,4 +84,19 @@ public class Pedido {
     public void incrementarStock() { /* TODO: delegar a Sucursal */ }
     public void reembolsarTotal()  { /* TODO: generar NotaCredito */ }
     public void reembolsarParcial(){ /* TODO: reembolso solo producto */ }
+    
+    // metodo de aviso a los observers para las notificaciones
+    public void notificarObservers(EstadoPedido estadoViejo, EstadoPedido estadoNuevo) {
+    	observersNotis.forEach(o -> o.notificar(estadoViejo, estadoNuevo, this));;
+    }
+    public void agregarObserver(ObserverPedido obs) {
+    	observersNotis.add(obs);
+    }
+    public void quitarObserver(ObserverPedido obs) {
+    	observersNotis.remove(obs);
+    }
+    
+    
+    
+    
 }

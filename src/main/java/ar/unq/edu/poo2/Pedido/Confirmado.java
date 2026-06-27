@@ -16,6 +16,8 @@ public class Confirmado extends EstadoBase {
         // al cancelar desde CONFIRMADO. Pero el stock YA se decrementó al confirmar
         // (en Borrador.confirmar). Si acá no se repone, queda stock perdido.
         // ¿Se debe reponer stock y/o generar nota de crédito al cancelar desde CONFIRMADO?
+    	EstadoPedido estadoViejo = this;
         pedido.setEstado(new Cancelado());
+        pedido.notificarObservers(estadoViejo, pedido.getEstado());
     }
 }

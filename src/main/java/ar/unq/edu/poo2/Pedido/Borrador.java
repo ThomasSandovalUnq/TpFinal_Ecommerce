@@ -21,11 +21,15 @@ public class Borrador extends EstadoBase {
     public void confirmar(Pedido pedido) {
         pedido.capturarPrecios();
         pedido.decrementarStock();
+         EstadoPedido estadoViejo = this;
         pedido.setEstado(new Confirmado());
+        pedido.notificarObservers(estadoViejo, pedido.getEstado());
     }
 
     @Override
     public void cancelar(Pedido pedido) {
+    	EstadoPedido estadoViejo = this;
         pedido.setEstado(new Cancelado());
+        pedido.notificarObservers(estadoViejo, pedido.getEstado());
     }
 }
