@@ -55,4 +55,23 @@ public class PaqueteTestCase {
 
 	        assertEquals(8755.0, precioFinalCalculado, "El precio final debe tener aplicado el 15% de descuento del paquete.");
 	    }
+	    @Test
+	    public void testRegistrarVentaAcumulaUnidadesYPrecios() {
+	        packAudioMovil.registrarVenta(2, 8755.0);
+	        assertEquals(2, packAudioMovil.getUnidadesVendidas());
+	        assertEquals(8755.0, packAudioMovil.getPrecioPromedio(), 0.01); // promedio unitario
+	    }
+
+	    @Test
+	    public void testPrecioPromedioEsCeroSiNoHayVentas() {
+	        assertEquals(0.0, packAudioMovil.getPrecioPromedio());
+	    }
+
+	    @Test
+	    public void testReiniciarVentasVuelveAcumuladoresACero() {
+	        packAudioMovil.registrarVenta(3, 8755.0);
+	        packAudioMovil.reiniciarVentas();
+	        assertEquals(0, packAudioMovil.getUnidadesVendidas());
+	        assertEquals(0.0, packAudioMovil.getPrecioPromedio());
+	    }
 }
