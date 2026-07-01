@@ -127,9 +127,7 @@ public class Pedido {
                 .sum();
     }
 
-    public void setMedioDePago(MetodoPago metodoDePago) {
-        this.metodoDePago = metodoDePago;
-    }
+
 
     public void setMetodoDePago(MetodoPago metodoDePago) {
         this.metodoDePago = metodoDePago;

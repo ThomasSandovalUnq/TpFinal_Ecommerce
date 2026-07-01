@@ -3,6 +3,7 @@ package ar.unq.edu.poo2.Pedido;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -156,4 +157,15 @@ public class PedidoVentaTestCase {
         pedido.quitarObserver(obsMock);
         // Sólo validamos que no explote
     }
+    
+    @Test
+    public void testProcesarPagoSinMetodoDePagoLanzaExcepcion() {
+        assertThrows(PagoNoSeleccionadoException.class, () -> pedido.procesarPago());
+    }
+    @Test
+    public void testGetCostoEnvioSinMetodoDeEnvioLanzaExcepcion() {
+        assertThrows(RuntimeException.class, () -> pedido.getCostoEnvio());
+    }
+    
+    
 }

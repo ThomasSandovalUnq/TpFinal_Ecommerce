@@ -32,10 +32,6 @@ public class LineaDePedido {
         this.precioCobrado = this.item.precioFinal();
     }
 
-    // Total de la línea: precio unitario cobrado por la cantidad.
-    public double getSubtotal() {
-        return this.precioCobrado * this.cantidad;
-    }
     
     public void incrementarCantidad() {
         this.cantidad++;

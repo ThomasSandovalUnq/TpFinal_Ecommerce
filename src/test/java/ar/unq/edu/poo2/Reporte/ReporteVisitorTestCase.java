@@ -86,6 +86,7 @@ public class ReporteVisitorTestCase {
         assertTrue(resultado.contains("$4500.00"));
     }
 
+
     // ---------- visitar(Paquete) ----------
 
     @Test
@@ -101,5 +102,31 @@ public class ReporteVisitorTestCase {
         assertTrue(resultado.contains("Pack Audio"));
         assertTrue(resultado.contains("5"));
         assertTrue(resultado.contains("8755.00"));
+    }
+    @Test
+    public void testHtmlTambienFuncionaConPaquetes() {
+        when(packMock.getNombre()).thenReturn("Pack Audio");
+        when(packMock.getUnidadesVendidas()).thenReturn(5);
+        when(packMock.getPrecioPromedio()).thenReturn(8755.0);
+        
+        ReporteHTML reporte = new ReporteHTML();
+        reporte.visitar(packMock);
+        String resultado = reporte.obtenerResultado();
+        
+        assertTrue(resultado.contains("<td>Pack Audio</td>"));
+        assertTrue(resultado.contains("<td>5</td>"));
+        assertTrue(resultado.contains("$8755.00"));
+    }
+    @Test
+    public void testCsvTambienFuncionaConPaquetes() {
+        when(packMock.getNombre()).thenReturn("Pack Audio");
+        when(packMock.getUnidadesVendidas()).thenReturn(5);
+        when(packMock.getPrecioPromedio()).thenReturn(8755.0);
+        
+        ReporteCSV reporte = new ReporteCSV();
+        reporte.visitar(packMock);
+        String resultado = reporte.obtenerResultado();
+        
+        assertTrue(resultado.contains("Pack Audio,5,8755.00"));
     }
 }
