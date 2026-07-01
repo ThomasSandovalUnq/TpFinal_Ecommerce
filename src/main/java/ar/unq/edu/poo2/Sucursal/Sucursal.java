@@ -9,12 +9,10 @@ public class Sucursal {
     private String nombre;
     // El map guarda cuántas unidades hay de cada ítem en esta sucursal específica
     private Map<ItemCatalogo, Integer> stockLocal;
-    private List<Sucursal> redGlobal; 
 
-    public Sucursal(String nombre, List<Sucursal> red) {
+    public Sucursal(String nombre) {
         this.nombre = nombre;
         this.stockLocal = new HashMap<>();
-        this.redGlobal = red;
     }
 
     public void registrarStock(ItemCatalogo item, int cantidad) {
@@ -37,11 +35,11 @@ public class Sucursal {
     }
     
     
-    public int estimarDiasDeRetiro(ItemCatalogo item, int cantidad) {
+    public int estimarDiasDeRetiro(ItemCatalogo item, int cantidad, DepositoGeneral depositoGeneral) {
         if (this.tieneStockLocal(item, cantidad)) {
             return 0;
         } 
-        else if (this.redGlobal.stream().anyMatch(s -> s.tieneStockLocal(item, cantidad))) {
+        else if (depositoGeneral != null && depositoGeneral.tieneStock(item, cantidad)) {
             return 3;
         } 
         else {

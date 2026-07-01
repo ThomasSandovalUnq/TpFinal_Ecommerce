@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import ar.unq.edu.poo2.Sucursal.DepositoGeneral;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ public class SucursalTestCase {
 
     @BeforeEach
     public void setUp() {
-        sucursalQuilmes = new Sucursal("Quilmes", null); 
+        sucursalQuilmes = new Sucursal("Quilmes"); 
     }
 
     @Test
@@ -80,19 +81,18 @@ public class SucursalTestCase {
     	
         sucursalQuilmes.registrarStock(productoMock, 1);
         
-        int dias = sucursalQuilmes.estimarDiasDeRetiro(productoMock, 1);
+        int dias = sucursalQuilmes.estimarDiasDeRetiro(productoMock, 1, null);
         assertEquals(0, dias, "Si hay stock local, la demora debe ser 0 días.");
     }
     
     @Test
     public void testEstimarDiasDeRetiroConTrasladoInternoDevuelveTres() {
     	
-        List<Sucursal> red = java.util.Arrays.asList(sucursalBernalMock);
-        Sucursal sucursalQuilmesConRed = new Sucursal("Quilmes", red);
+        DepositoGeneral deposito = new DepositoGeneral();
+        deposito.registrarStock(productoMock, 1);
+        Sucursal sucursalQuilmesConRed = new Sucursal("Quilmes");
 
-        when(sucursalBernalMock.tieneStockLocal(productoMock, 1)).thenReturn(true);
-
-        int dias = sucursalQuilmesConRed.estimarDiasDeRetiro(productoMock, 1);
+        int dias = sucursalQuilmesConRed.estimarDiasDeRetiro(productoMock, 1, deposito);
         
         assertEquals(3, dias, "Si requiere traslado interno desde otra sucursal, la demora debe ser de 3 días.");
     }
@@ -100,13 +100,11 @@ public class SucursalTestCase {
     @Test
     public void testEstimarDiasDeRetiroSinStockEnNingunLadoLanzaExcepcion() {
     	
-        List<Sucursal> red = java.util.Arrays.asList(sucursalBernalMock);
-        Sucursal sucursalQuilmesConRed = new Sucursal("Quilmes", red);
-
-        when(sucursalBernalMock.tieneStockLocal(productoMock, 1)).thenReturn(false);
+        DepositoGeneral deposito = new DepositoGeneral();
+        Sucursal sucursalQuilmesConRed = new Sucursal("Quilmes");
 
         assertThrows(RuntimeException.class, () -> {
-            sucursalQuilmesConRed.estimarDiasDeRetiro(productoMock, 1);
+            sucursalQuilmesConRed.estimarDiasDeRetiro(productoMock, 1, deposito);
         }, "Debe lanzar excepción si ninguna sucursal del país tiene stock.");
     }
 }

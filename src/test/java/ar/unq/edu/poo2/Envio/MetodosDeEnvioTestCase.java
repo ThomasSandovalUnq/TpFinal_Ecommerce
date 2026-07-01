@@ -38,10 +38,10 @@ public class MetodosDeEnvioTestCase {
         when(pedidoMock.getLineas()).thenReturn(Arrays.asList(linea1, linea2));
         
         Sucursal sucursalMock = mock(Sucursal.class);
-        when(sucursalMock.estimarDiasDeRetiro(item1, 1)).thenReturn(0);
-        when(sucursalMock.estimarDiasDeRetiro(item2, 2)).thenReturn(3);
+        when(sucursalMock.estimarDiasDeRetiro(item1, 1, null)).thenReturn(0);
+        when(sucursalMock.estimarDiasDeRetiro(item2, 2, null)).thenReturn(3);
         
-        RetiroEnSucursal retiro = new RetiroEnSucursal(sucursalMock);
+        RetiroEnSucursal retiro = new RetiroEnSucursal(sucursalMock, null);
         
         assertEquals(0.0f, retiro.calcularCosto(pedidoMock));
         assertEquals(3, retiro.estimarDiasDeEntrega(pedidoMock));

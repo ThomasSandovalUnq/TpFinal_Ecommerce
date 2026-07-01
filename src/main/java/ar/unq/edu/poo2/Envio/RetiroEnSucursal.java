@@ -1,15 +1,18 @@
 package ar.unq.edu.poo2.Envio;
 
 import ar.unq.edu.poo2.Sucursal.Sucursal;
+import ar.unq.edu.poo2.Sucursal.DepositoGeneral;
 import ar.unq.edu.poo2.Pedido.LineaDePedido;
 import ar.unq.edu.poo2.Pedido.Pedido;
 
 public class RetiroEnSucursal implements MetodoDeEnvio {
 	
     private Sucursal sucursalElegida;
+    private DepositoGeneral depositoGeneral;
     
-    public RetiroEnSucursal(Sucursal sucursalElegida) {
+    public RetiroEnSucursal(Sucursal sucursalElegida, DepositoGeneral depositoGeneral) {
         this.sucursalElegida = sucursalElegida;
+        this.depositoGeneral = depositoGeneral;
     }
     
     @Override
@@ -22,7 +25,7 @@ public class RetiroEnSucursal implements MetodoDeEnvio {
         int maxDias = 0;
         
         for (LineaDePedido linea : pedido.getLineas()) {
-            int dias = this.sucursalElegida.estimarDiasDeRetiro(linea.getItem(), linea.getCantidad());
+            int dias = this.sucursalElegida.estimarDiasDeRetiro(linea.getItem(), linea.getCantidad(), this.depositoGeneral);
             if (dias > maxDias) {
                 maxDias = dias;
             }

@@ -30,7 +30,7 @@ public class RetiroEnSucursalTestCase {
 
     @BeforeEach
     public void setUp() {
-        retiro = new RetiroEnSucursal(sucursalMock);
+        retiro = new RetiroEnSucursal(sucursalMock, null);
     }
 
     @Test
@@ -53,8 +53,8 @@ public class RetiroEnSucursalTestCase {
         
         when(pedidoMock.getLineas()).thenReturn(Arrays.asList(linea1, linea2));
         
-        when(sucursalMock.estimarDiasDeRetiro(item1, 1)).thenReturn(0);
-        when(sucursalMock.estimarDiasDeRetiro(item2, 2)).thenReturn(3);
+        when(sucursalMock.estimarDiasDeRetiro(item1, 1, null)).thenReturn(0);
+        when(sucursalMock.estimarDiasDeRetiro(item2, 2, null)).thenReturn(3);
 
         int dias = retiro.estimarDiasDeEntrega(pedidoMock);
 
