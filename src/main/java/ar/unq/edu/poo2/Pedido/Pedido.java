@@ -47,7 +47,7 @@ public class Pedido {
         } else {
             this.lineas.add(new LineaDePedido(item, 1));
         }
-    }
+    } 
 
     // CONSULTAR: interpretamos que "quitar ítem" saca UNA unidad, no todo el ítem.
     // Si la cantidad llega a 0, se elimina la línea.

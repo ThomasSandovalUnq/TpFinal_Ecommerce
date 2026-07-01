@@ -9,7 +9,7 @@ public class GeneradorFactura implements ObserverPedido {
 	@Override
 	public void notificar(EstadoPedido estadoViejo, EstadoPedido estadoNuevo, Pedido pedido) {
 		if(estadoNuevo instanceof Entregado ) {
-			System.out.println("comprobante fiscal. el pedido"+pedido+"cambio su estado de"+estadoViejo+"a"+estadoNuevo);
+			System.out.println("comprobante fiscal. El pedido"+pedido+"cambio su estado de"+estadoViejo+"a"+estadoNuevo);
 		}
 		
 	}

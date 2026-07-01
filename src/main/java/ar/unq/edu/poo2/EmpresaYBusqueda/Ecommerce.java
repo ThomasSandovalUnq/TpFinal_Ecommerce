@@ -14,7 +14,7 @@ public class Ecommerce {
     private DepositoGeneral depositoGeneral; 
     private List<Pedido> pedidos; 
     
-    public Ecommerce() {
+    public Ecommerce() { 
         this.catalogoMaestro = new ArrayList<>();
         this.redDeSucursales = new ArrayList<>();
         this.buscador = new BuscadorCatalogo();
