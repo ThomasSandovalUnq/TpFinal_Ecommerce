@@ -17,6 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ar.unq.edu.poo2.Catalogo.ItemCatalogo;
 import ar.unq.edu.poo2.Catalogo.Producto;
 import ar.unq.edu.poo2.Sucursal.Sucursal;
+import ar.unq.edu.poo2.Sucursal.DepositoGeneral;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 public class EmpresaYBusquedaTestCase {
@@ -79,13 +81,12 @@ public class EmpresaYBusquedaTestCase {
     }
 
     @Test
-    public void testCriterioDisponibilidadSatisfaceSiAlMenosUnaSucursalTieneStock() {
+    public void testCriterioDisponibilidadSatisfaceSiDepositoTieneStock() {
     	
-        List<Sucursal> sucursales = Arrays.asList(sucursalQuilmesMock, sucursalBernalMock);
-        CriterioBusqueda criterio = new CriterioDisponibilidad(sucursales);
+        DepositoGeneral depositoMock = mock(DepositoGeneral.class);
+        CriterioBusqueda criterio = new CriterioDisponibilidad(depositoMock);
 
-        when(sucursalQuilmesMock.tieneStockLocal(tecladoMock, 1)).thenReturn(false);
-        when(sucursalBernalMock.tieneStockLocal(tecladoMock, 1)).thenReturn(true);
+        when(depositoMock.tieneStock(tecladoMock, 1)).thenReturn(true);
 
         assertTrue(criterio.satisface(tecladoMock));
     }

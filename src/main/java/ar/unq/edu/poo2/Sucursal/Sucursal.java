@@ -2,7 +2,6 @@ package ar.unq.edu.poo2.Sucursal;
 
 import ar.unq.edu.poo2.Catalogo.ItemCatalogo;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Sucursal {

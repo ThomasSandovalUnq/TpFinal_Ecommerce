@@ -1,19 +1,17 @@
 package ar.unq.edu.poo2.EmpresaYBusqueda;
 
-import java.util.List;
-
 import ar.unq.edu.poo2.Catalogo.ItemCatalogo;
-import ar.unq.edu.poo2.Sucursal.Sucursal;
+import ar.unq.edu.poo2.Sucursal.DepositoGeneral;
 
 public class CriterioDisponibilidad implements CriterioBusqueda {
-    private List<Sucursal> red;
+    private DepositoGeneral deposito;
 
-    public CriterioDisponibilidad(List<Sucursal> red) {
-        this.red = red;
+    public CriterioDisponibilidad(DepositoGeneral deposito) {
+        this.deposito = deposito;
     }
 
     @Override
     public boolean satisface(ItemCatalogo item) {
-        return red.stream().anyMatch(r -> r.tieneStockLocal(item, 1));
+        return deposito != null && deposito.tieneStock(item, 1);
     }
 }
