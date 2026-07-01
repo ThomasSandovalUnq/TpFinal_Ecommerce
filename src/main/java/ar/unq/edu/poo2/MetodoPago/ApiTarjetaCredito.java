@@ -3,12 +3,12 @@ package ar.unq.edu.poo2.MetodoPago;
 import java.time.LocalDate;
 
 public interface ApiTarjetaCredito {
-    boolean validarTarjeta(
+    public boolean validarTarjeta(
             String numero,
             String cvv,
             LocalDate vencimiento);
 
-    void preAutorizar(double monto);
+    public void preAutorizar(double monto);
 
-    String transferir(double monto);
+    public String transferir(double monto);
 }

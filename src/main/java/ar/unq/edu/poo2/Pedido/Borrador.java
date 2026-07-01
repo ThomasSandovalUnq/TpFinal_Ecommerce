@@ -20,7 +20,6 @@ public class Borrador extends EstadoBase {
     @Override
     public void confirmar(Pedido pedido) {
         pedido.capturarPrecios();
-        pedido.procesarPago(); // Si falla el pago, revienta aquí
         
         EstadoPedido estadoViejo = pedido.getEstado();
         EstadoPedido nuevoEstado = new Confirmado();

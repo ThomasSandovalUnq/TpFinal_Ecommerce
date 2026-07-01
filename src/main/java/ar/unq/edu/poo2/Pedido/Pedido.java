@@ -123,11 +123,14 @@ public class Pedido {
     }
 
     public double getTotal() {
-        double subtotalProductos = this.lineas.stream()
-                .mapToDouble(LineaDePedido::getSubtotal)
-                .sum();
         double costoEnvio = (this.metodoDeEnvio != null) ? this.getCostoEnvio() : 0.0;
-        return subtotalProductos + costoEnvio;
+        return this.getSubtotalProductos() + costoEnvio;
+    }
+    
+    public double getSubtotalProductos() {
+        return this.lineas.stream()
+                .mapToDouble(l -> l.getItem().precioFinal() * l.getCantidad())
+                .sum();
     }
 
     public void setMedioDePago(MetodoPago metodoDePago) {
@@ -140,19 +143,8 @@ public class Pedido {
 
     public void procesarPago() {
         if (this.metodoDePago == null) {
-            boolean isRunningTest = false;
-            for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
-                if (element.getClassName().contains("TestCase") || element.getClassName().contains("Test")) {
-                    isRunningTest = true;
-                    break;
-                }
-            }
-            if (isRunningTest) {
-                return;
-            }
-            throw new RuntimeException("Debe seleccionar un medio de pago antes de confirmar.");
+            throw new PagoNoSeleccionadoException("Debe seleccionar un medio de pago antes de confirmar.");
         }
-        
         this.metodoDePago.setMonto(this.getTotal());
         this.metodoDePago.procesarPago();
     }

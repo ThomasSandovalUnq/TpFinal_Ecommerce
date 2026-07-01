@@ -4,7 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
-
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.time.LocalDate;
 
@@ -18,8 +19,6 @@ import ar.unq.edu.poo2.Catalogo.ItemCatalogo;
 import ar.unq.edu.poo2.Envio.MetodoDeEnvio;
 import ar.unq.edu.poo2.MetodoPago.MetodoPago;
 import ar.unq.edu.poo2.Notificaciones.ObserverPedido;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class PedidoVentaTestCase {
@@ -62,7 +61,6 @@ public class PedidoVentaTestCase {
         pedido.agregarItem(itemMock);
         pedido.confirmar(); // congela en 5000
 
-        // Aunque el ítem ahora valga otra cosa, el precio cobrado sigue congelado.
         assertEquals(5000.0, pedido.getLineas().get(0).getPrecioCobrado(),
                 "El precio congelado no debe verse afectado por cambios posteriores.");
     }
@@ -95,6 +93,7 @@ public class PedidoVentaTestCase {
         assertNull(pedido.getFechaEntrega(),
                 "Un pedido cancelado nunca se entregó, no tiene fecha.");
     }
+
     // ---------- Totales y Pagos ----------
 
     @Test
@@ -110,10 +109,10 @@ public class PedidoVentaTestCase {
     public void testGetTotalConEnvioSumaAmbos() {
         MetodoDeEnvio envioMock = mock(MetodoDeEnvio.class);
         pedido.setMetodoDeEnvio(envioMock);
-        
+
         when(itemMock.precioFinal()).thenReturn(1500.0);
         pedido.agregarItem(itemMock);
-        
+
         when(envioMock.calcularCosto(pedido)).thenReturn(500.0f);
 
         assertEquals(2000.0, pedido.getTotal());
@@ -122,13 +121,13 @@ public class PedidoVentaTestCase {
     @Test
     public void testProcesarPagoDelegaEnMetodoDePago() {
         MetodoPago pagoMock = mock(MetodoPago.class);
-        pedido.setMedioDePago(pagoMock);
-        
+        pedido.setMetodoDePago(pagoMock);
+
         when(itemMock.precioFinal()).thenReturn(1000.0);
         pedido.agregarItem(itemMock);
-        
+
         pedido.procesarPago();
-        
+
         verify(pagoMock).setMonto(1000.0);
         verify(pagoMock).procesarPago();
     }

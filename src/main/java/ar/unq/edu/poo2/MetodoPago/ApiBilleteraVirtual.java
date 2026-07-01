@@ -2,9 +2,9 @@ package ar.unq.edu.poo2.MetodoPago;
 
 public interface ApiBilleteraVirtual {
 
-    boolean tieneSaldo(double monto);
+    public boolean tieneSaldo(double monto);
 
-    void bloquearSaldo(double monto);
+    public void bloquearSaldo(double monto);
 
-    String acreditar(double monto);
+    public String acreditar(double monto);
 }

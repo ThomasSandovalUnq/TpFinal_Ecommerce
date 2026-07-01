@@ -57,6 +57,7 @@ public class Ecommerce {
     public void confirmarPedido(Pedido pedido) {
      
         pedido.confirmar(); 
+        pedido.procesarPago(); 
         
         if (pedido.getMetodoDeEnvio() instanceof RetiroEnSucursal) {
             RetiroEnSucursal retiro = (RetiroEnSucursal) pedido.getMetodoDeEnvio();

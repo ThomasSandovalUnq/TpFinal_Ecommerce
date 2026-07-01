@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -14,56 +13,47 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import ar.unq.edu.poo2.Catalogo.ItemCatalogo;
-import ar.unq.edu.poo2.MetodoPago.MetodoPago;
 
 @ExtendWith(MockitoExtension.class)
 public class BorradorTestCase {
 
     private Pedido pedido;
-    private MetodoPago pagoMock;
 
     @Mock
     private ItemCatalogo itemMock;
 
     @BeforeEach
     public void setUp() {
-        // Un pedido nuevo arranca en Borrador, así que no hace falta llevarlo a ningún lado.
+        // Un pedido nuevo arranca en Borrador.
         pedido = new Pedido();
-        pagoMock = mock(MetodoPago.class);
-        
-        pedido.setMedioDePago(pagoMock);
-        
-        // Agregamos 1 ítem al pedido para que tenga líneas
-        when(itemMock.precioFinal()).thenReturn(500.0);
-        pedido.agregarItemInterno(itemMock); 
+        pedido.agregarItemInterno(itemMock);
     }
 
     // ---------- Estado inicial ----------
-
     @Test
     public void testUnPedidoNuevoArrancaEnBorrador() {
         assertInstanceOf(Borrador.class, pedido.getEstado());
     }
 
     // ---------- Operaciones válidas ----------
-
     @Test
     public void testPermiteAgregarItems() {
         pedido.agregarItem(itemMock);
+        // El setUp ya agregó 1, este agrega otra unidad del mismo ítem.
         assertEquals(1, pedido.getLineas().size());
         assertEquals(itemMock, pedido.getLineas().get(0).getItem());
-        assertEquals(1, pedido.getLineas().get(0).getCantidad());
+        assertEquals(2, pedido.getLineas().get(0).getCantidad());
     }
 
     @Test
     public void testPermiteQuitarItems() {
-        pedido.agregarItem(itemMock);
         pedido.quitarItem(itemMock);
         assertTrue(pedido.getLineas().isEmpty());
     }
 
     @Test
     public void testConfirmarTransicionaAConfirmado() {
+        when(itemMock.precioFinal()).thenReturn(500.0);
         pedido.confirmar();
         assertInstanceOf(Confirmado.class, pedido.getEstado());
     }
@@ -75,7 +65,6 @@ public class BorradorTestCase {
     }
 
     // ---------- Operaciones inválidas ----------
-
     @Test
     public void testNoPuedeEnviar() {
         assertThrows(OperacionInvalidaException.class, () -> pedido.enviar());
@@ -90,12 +79,12 @@ public class BorradorTestCase {
     public void testNoPuedeIniciarPreparacion() {
         assertThrows(OperacionInvalidaException.class, () -> pedido.iniciarPreparacion());
     }
-    
+
     @Test
     public void testAgregarElMismoItemDosVecesIncrementaLaCantidad() {
         pedido.agregarItem(itemMock);
         pedido.agregarItem(itemMock);
         assertEquals(1, pedido.getLineas().size(), "Debe haber una sola línea.");
-        assertEquals(2, pedido.getLineas().get(0).getCantidad(), "La cantidad debe ser 2.");
+        assertEquals(3, pedido.getLineas().get(0).getCantidad(), "La cantidad debe ser 3.");
     }
 }
