@@ -82,25 +82,7 @@ public class EcommerceTestCase {
         ecommerce.registrarPedido(pedidoMock);
     }
 
-    @Test
-    public void testConfirmarPedidoConRetiroEnSucursalDescuentaStockDeSucursalElegida() {
-        Pedido pedidoMock = mock(Pedido.class);
-        RetiroEnSucursal retiroMock = mock(RetiroEnSucursal.class);
-        LineaDePedido lineaMock = mock(LineaDePedido.class);
-        
-        when(pedidoMock.getMetodoDeEnvio()).thenReturn(retiroMock);
-        when(retiroMock.getSucursalElegida()).thenReturn(sucursalMock);
-        when(pedidoMock.getLineas()).thenReturn(Arrays.asList(lineaMock));
-        when(lineaMock.getItem()).thenReturn(itemMock);
-        when(lineaMock.getCantidad()).thenReturn(2);
-        
-        org.mockito.Mockito.doCallRealMethod().when(retiroMock).procesarDescuentoDeStock(org.mockito.Mockito.any(Pedido.class), org.mockito.Mockito.any(Ecommerce.class));
-        
-        ecommerce.confirmarPedido(pedidoMock);
-        
-        verify(pedidoMock).confirmar();
-        verify(sucursalMock).decrementarStock(itemMock, 2);
-    }
+
 
     @Test
     public void testConfirmarPedidoConOtroEnvioDescuentaStockDeDepositoGeneral() {
@@ -123,25 +105,7 @@ public class EcommerceTestCase {
         assertTrue(ecommerce.getDepositoGeneral().tieneStock(itemMock, 3));
     }
 
-    @Test
-    public void testCancelarPedidoConRetiroEnSucursalReponeStockDeSucursalElegida() {
-        Pedido pedidoMock = mock(Pedido.class);
-        RetiroEnSucursal retiroMock = mock(RetiroEnSucursal.class);
-        LineaDePedido lineaMock = mock(LineaDePedido.class);
-        
-        when(pedidoMock.getMetodoDeEnvio()).thenReturn(retiroMock);
-        when(retiroMock.getSucursalElegida()).thenReturn(sucursalMock);
-        when(pedidoMock.getLineas()).thenReturn(Arrays.asList(lineaMock));
-        when(lineaMock.getItem()).thenReturn(itemMock);
-        when(lineaMock.getCantidad()).thenReturn(2);
-        
-        org.mockito.Mockito.doCallRealMethod().when(retiroMock).procesarReposicionDeStock(org.mockito.Mockito.any(Pedido.class), org.mockito.Mockito.any(Ecommerce.class));
 
-        ecommerce.cancelarPedido(pedidoMock);
-        
-        verify(pedidoMock).cancelar();
-        verify(sucursalMock).incrementarStock(itemMock, 2);
-    }
 
     @Test
     public void testCancelarPedidoConOtroEnvioReponeStockDeDepositoGeneral() {
@@ -160,5 +124,38 @@ public class EcommerceTestCase {
         
         verify(pedidoMock).cancelar();
         assertTrue(ecommerce.getDepositoGeneral().tieneStock(itemMock, 2));
+    } 
+    @Test
+    public void testConfirmarPedidoConRetiroEnSucursalDescuentaStockDeSucursalElegida() {
+        Pedido pedidoMock = mock(Pedido.class);
+        RetiroEnSucursal retiro = new RetiroEnSucursal(sucursalMock, ecommerce.getDepositoGeneral());
+        LineaDePedido lineaMock = mock(LineaDePedido.class);
+        
+        when(pedidoMock.getMetodoDeEnvio()).thenReturn(retiro);
+        when(pedidoMock.getLineas()).thenReturn(Arrays.asList(lineaMock));
+        when(lineaMock.getItem()).thenReturn(itemMock);
+        when(lineaMock.getCantidad()).thenReturn(2);
+        
+        ecommerce.confirmarPedido(pedidoMock);
+        
+        verify(pedidoMock).confirmar();
+        verify(sucursalMock).decrementarStock(itemMock, 2);
+    }
+
+@Test
+    public void testCancelarPedidoConRetiroEnSucursalReponeStockDeSucursalElegida() {
+        Pedido pedidoMock = mock(Pedido.class);
+        RetiroEnSucursal retiro = new RetiroEnSucursal(sucursalMock, ecommerce.getDepositoGeneral());
+        LineaDePedido lineaMock = mock(LineaDePedido.class);
+        
+        when(pedidoMock.getMetodoDeEnvio()).thenReturn(retiro);
+        when(pedidoMock.getLineas()).thenReturn(Arrays.asList(lineaMock));
+        when(lineaMock.getItem()).thenReturn(itemMock);
+        when(lineaMock.getCantidad()).thenReturn(2);
+        
+        ecommerce.cancelarPedido(pedidoMock);
+        
+        verify(pedidoMock).cancelar();
+        verify(sucursalMock).incrementarStock(itemMock, 2);
     }
 }

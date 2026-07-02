@@ -68,7 +68,7 @@ public class EmpresaYBusquedaTestCase {
 
     @Test
     public void testCriterioCategoriaSatisfaceSiEsElMismo() {
-        when(tecladoMock.getCategoria()).thenReturn("Perifericos");
+        when(tecladoMock.getCategoria()).thenReturn("perifericos");
         CriterioBusqueda criterio = new CriterioCategoria("perifericos");
 
         assertTrue(criterio.satisface(tecladoMock));

@@ -12,6 +12,7 @@ public interface EstadoPedido {
     void quitarItem(Pedido pedido, ItemCatalogo item);
 
     // Queries para evitar instanceof
+    default boolean esBorrador() { return false; } 
     default boolean esCancelado() { return false; }
     default boolean esEntregado() { return false; }
     default boolean esConfirmado() { return false; }

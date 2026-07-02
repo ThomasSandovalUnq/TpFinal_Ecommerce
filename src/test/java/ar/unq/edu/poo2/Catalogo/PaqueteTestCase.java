@@ -1,6 +1,8 @@
 package ar.unq.edu.poo2.Catalogo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.mock;
@@ -92,5 +94,22 @@ public class PaqueteTestCase {
 	        ReporteVisitor visitorMock = mock(ReporteVisitor.class);
 	        packAudioMovil.aceptar(visitorMock);
 	        verify(visitorMock).visitar(packAudioMovil);
+	    }
+	    @Test
+	    public void testTieneCategoria() {
+	        // Como auriculares es el primero en la lista y devuelve true,
+	        // el anyMatch() corta ahí y no evalúa a los demás.
+	        when(auricularesMock.tieneCategoria("Periféricos")).thenReturn(true);
+	        
+	        assertTrue(packAudioMovil.tieneCategoria("Periféricos"), "Debería retornar true si al menos un ítem lo tiene");
+	    }
+ 
+	    @Test
+	    public void testTieneCategoriaFalse() {
+	        when(auricularesMock.tieneCategoria("Hogar")).thenReturn(false);
+	        when(fundaMock.tieneCategoria("Hogar")).thenReturn(false);
+	        when(cableMock.tieneCategoria("Hogar")).thenReturn(false);
+	        
+	        assertFalse(packAudioMovil.tieneCategoria("Hogar"), "Debería retornar false si ningún ítem lo tiene");
 	    }
 }

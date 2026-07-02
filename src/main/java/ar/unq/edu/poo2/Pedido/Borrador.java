@@ -11,7 +11,10 @@ public class Borrador extends EstadoBase {
     public void agregarItem(Pedido pedido, ItemCatalogo item) {
         pedido.agregarItemInterno(item);
     }
-
+    @Override 
+    public boolean esBorrador() {
+    	return true;
+    }
     @Override
     public void quitarItem(Pedido pedido, ItemCatalogo item) {
         pedido.quitarItemInterno(item);

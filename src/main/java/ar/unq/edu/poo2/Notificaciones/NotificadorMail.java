@@ -11,7 +11,7 @@ public class NotificadorMail implements ObserverPedido{
 	@Override
 	public void notificar(EstadoPedido estadoViejo, EstadoPedido estadoNuevo, Pedido pedido) {
 		if(estadoNuevo.esConfirmado() || estadoNuevo.esEnviado() || estadoNuevo.esEntregado()) {
-			mail.enviarMail(null, null, null, null);
+			mail.enviarMail(null, "Estado actualizado: " + estadoNuevo, null, null);
 		}
 	}
 	public void setMail(MailSender mail) {

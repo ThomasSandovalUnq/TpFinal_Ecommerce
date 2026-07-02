@@ -76,7 +76,7 @@ public class Producto extends ItemCatalogo {
 	    // Si no tiene el atributo "Peso" (por ejemplo, es un software), pesa 0.
 	    return 0.0f; 
 	}
-	
+	@Override
 	public boolean tieneCategoria(String categoria) {
 	    return this.categoria != null && this.categoria.toLowerCase().equals(categoria.toLowerCase());
 	}

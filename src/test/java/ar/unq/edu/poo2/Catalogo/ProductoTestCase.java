@@ -2,7 +2,9 @@ package ar.unq.edu.poo2.Catalogo;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -77,5 +79,13 @@ public class ProductoTestCase {
         assertThrows(ValidacionProducto.class, () -> {
             productoVacio.validar();
         }, "Debería lanzar excepción si el nombre está en blanco.");
+    }
+    @Test
+    public void testTieneCategoria() {
+    	Producto teclado = new Producto("Teclado", "Periféricos", 5000.0, "SKU-999", "Logitech", "Periféricos", 10.0);
+    	
+        assertTrue(teclado.tieneCategoria("Periféricos"));
+        assertTrue(teclado.tieneCategoria("periféricos"));
+        assertFalse(teclado.tieneCategoria("Monitores"));
     }
 }

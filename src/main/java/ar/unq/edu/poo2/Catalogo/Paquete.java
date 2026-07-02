@@ -51,7 +51,6 @@ public class Paquete extends ItemCatalogo {
 	
 	@Override
 	public boolean tieneCategoria(String categoria) {
-	    // Paquetes do not have direct categories unless specified, returning false.
-	    return false;
+	    return this.pack.stream().anyMatch(i -> i.tieneCategoria(categoria));
 	}
 }
