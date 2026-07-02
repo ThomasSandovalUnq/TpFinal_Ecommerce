@@ -46,4 +46,6 @@ public abstract class ItemCatalogo {
 	}
 
 	public abstract float getPeso();
+	
+	public abstract boolean tieneCategoria(String categoria);
 }

@@ -12,11 +12,6 @@ public class CriterioCategoria implements CriterioBusqueda {
 
     @Override
     public boolean satisface(ItemCatalogo item) {
-        // Como los Paquetes no tienen categoría propia, verificamos si es un Producto
-        if (item instanceof Producto) {
-            Producto prod = (Producto) item;
-            return prod.getCategoria().toLowerCase().equals(categoriaBuscada);
-        }
-        return false; 
+        return item.tieneCategoria(categoriaBuscada);
     }
 }

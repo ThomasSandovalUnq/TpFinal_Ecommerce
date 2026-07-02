@@ -7,7 +7,6 @@ import java.util.List;
 import ar.unq.edu.poo2.Catalogo.ItemCatalogo;
 import ar.unq.edu.poo2.Pedido.Pedido;
 import ar.unq.edu.poo2.Pedido.LineaDePedido;
-import ar.unq.edu.poo2.Pedido.Entregado;
 
 public class GeneradorReporteVentas {
 
@@ -41,7 +40,7 @@ public class GeneradorReporteVentas {
     }
 
     private boolean estaEntregado(Pedido pedido) {
-        return pedido.getEstado() instanceof Entregado;
+        return pedido.getEstado().esEntregado();
     }
 
     private boolean estaEnPeriodo(Pedido pedido, LocalDate desde, LocalDate hasta) {

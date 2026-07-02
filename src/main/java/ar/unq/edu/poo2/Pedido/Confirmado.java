@@ -20,4 +20,7 @@ public class Confirmado extends EstadoBase {
         pedido.setEstado(new Cancelado());
         pedido.notificarObservers(estadoViejo, pedido.getEstado());
     }
+
+    @Override
+    public boolean esConfirmado() { return true; }
 }

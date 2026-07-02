@@ -49,4 +49,9 @@ public class Paquete extends ItemCatalogo {
         return pesoTotal;
     }
 	
+	@Override
+	public boolean tieneCategoria(String categoria) {
+	    // Paquetes do not have direct categories unless specified, returning false.
+	    return false;
+	}
 }

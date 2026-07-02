@@ -10,4 +10,10 @@ public interface EstadoPedido {
     void entregar(Pedido pedido);
     void agregarItem(Pedido pedido, ItemCatalogo item);
     void quitarItem(Pedido pedido, ItemCatalogo item);
+
+    // Queries para evitar instanceof
+    default boolean esCancelado() { return false; }
+    default boolean esEntregado() { return false; }
+    default boolean esConfirmado() { return false; }
+    default boolean esEnviado() { return false; }
 }

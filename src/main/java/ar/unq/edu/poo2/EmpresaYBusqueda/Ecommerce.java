@@ -59,47 +59,35 @@ public class Ecommerce {
         pedido.confirmar(); 
         pedido.procesarPago(); 
         
-        if (pedido.getMetodoDeEnvio() instanceof RetiroEnSucursal) {
-            RetiroEnSucursal retiro = (RetiroEnSucursal) pedido.getMetodoDeEnvio();
-            Sucursal sucursal = retiro.getSucursalElegida();
-            this.descontarStockDeSucursal(pedido, sucursal);
-        } else {
-            this.descontarStockGeneral(pedido);
-        }
+        pedido.getMetodoDeEnvio().procesarDescuentoDeStock(pedido, this);
     }
     
     public void cancelarPedido(Pedido pedido) {
         pedido.cancelar(); 
-        if (pedido.getMetodoDeEnvio() instanceof RetiroEnSucursal) {
-            RetiroEnSucursal retiro = (RetiroEnSucursal) pedido.getMetodoDeEnvio();
-            Sucursal sucursal = retiro.getSucursalElegida();
-            this.reponerStockDeSucursal(pedido, sucursal);
-        } else {
-            this.reponerStockGeneral(pedido);
-        }
+        pedido.getMetodoDeEnvio().procesarReposicionDeStock(pedido, this);
     }
 
     
     
-    private void descontarStockDeSucursal(Pedido pedido, Sucursal sucursal) {
+    public void descontarStockDeSucursal(Pedido pedido, Sucursal sucursal) {
         for (LineaDePedido linea : pedido.getLineas()) {
             sucursal.decrementarStock(linea.getItem(), linea.getCantidad());
         }
     }
     
-    private void descontarStockGeneral(Pedido pedido) {
+    public void descontarStockGeneral(Pedido pedido) {
         for (LineaDePedido linea : pedido.getLineas()) {
             this.depositoGeneral.decrementarStock(linea.getItem(), linea.getCantidad());
         }
     }
     
-    private void reponerStockDeSucursal(Pedido pedido, Sucursal sucursal) {
+    public void reponerStockDeSucursal(Pedido pedido, Sucursal sucursal) {
         for (LineaDePedido linea : pedido.getLineas()) {
             sucursal.incrementarStock(linea.getItem(), linea.getCantidad());
         }
     }
     
-    private void reponerStockGeneral(Pedido pedido) {
+    public void reponerStockGeneral(Pedido pedido) {
         for (LineaDePedido linea : pedido.getLineas()) {
             this.depositoGeneral.incrementarStock(linea.getItem(), linea.getCantidad());
         }

@@ -36,4 +36,14 @@ public class RetiroEnSucursal implements MetodoDeEnvio {
     public Sucursal getSucursalElegida() {
         return this.sucursalElegida;
     }
+
+    @Override
+    public void procesarDescuentoDeStock(Pedido pedido, ar.unq.edu.poo2.EmpresaYBusqueda.Ecommerce ecommerce) {
+        ecommerce.descontarStockDeSucursal(pedido, this.sucursalElegida);
+    }
+
+    @Override
+    public void procesarReposicionDeStock(Pedido pedido, ar.unq.edu.poo2.EmpresaYBusqueda.Ecommerce ecommerce) {
+        ecommerce.reponerStockDeSucursal(pedido, this.sucursalElegida);
+    }
 }

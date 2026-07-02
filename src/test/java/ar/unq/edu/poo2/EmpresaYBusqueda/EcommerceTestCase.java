@@ -20,6 +20,7 @@ import static org.mockito.Mockito.mock;
 import java.util.Arrays;
 import ar.unq.edu.poo2.Pedido.Pedido;
 import ar.unq.edu.poo2.Pedido.LineaDePedido;
+import ar.unq.edu.poo2.Envio.EnvioEstandar;
 import ar.unq.edu.poo2.Envio.MetodoDeEnvio;
 import ar.unq.edu.poo2.Envio.RetiroEnSucursal;
 
@@ -93,6 +94,8 @@ public class EcommerceTestCase {
         when(lineaMock.getItem()).thenReturn(itemMock);
         when(lineaMock.getCantidad()).thenReturn(2);
         
+        org.mockito.Mockito.doCallRealMethod().when(retiroMock).procesarDescuentoDeStock(org.mockito.Mockito.any(Pedido.class), org.mockito.Mockito.any(Ecommerce.class));
+        
         ecommerce.confirmarPedido(pedidoMock);
         
         verify(pedidoMock).confirmar();
@@ -102,7 +105,7 @@ public class EcommerceTestCase {
     @Test
     public void testConfirmarPedidoConOtroEnvioDescuentaStockDeDepositoGeneral() {
         Pedido pedidoMock = mock(Pedido.class);
-        MetodoDeEnvio otroEnvioMock = mock(MetodoDeEnvio.class);
+        EnvioEstandar otroEnvioMock = mock(EnvioEstandar.class);
         LineaDePedido lineaMock = mock(LineaDePedido.class);
         
         ecommerce.getDepositoGeneral().registrarStock(itemMock, 5);
@@ -112,6 +115,8 @@ public class EcommerceTestCase {
         when(lineaMock.getItem()).thenReturn(itemMock);
         when(lineaMock.getCantidad()).thenReturn(2);
         
+        org.mockito.Mockito.doCallRealMethod().when(otroEnvioMock).procesarDescuentoDeStock(org.mockito.Mockito.any(Pedido.class), org.mockito.Mockito.any(Ecommerce.class));
+
         ecommerce.confirmarPedido(pedidoMock);
         
         verify(pedidoMock).confirmar();
@@ -130,6 +135,8 @@ public class EcommerceTestCase {
         when(lineaMock.getItem()).thenReturn(itemMock);
         when(lineaMock.getCantidad()).thenReturn(2);
         
+        org.mockito.Mockito.doCallRealMethod().when(retiroMock).procesarReposicionDeStock(org.mockito.Mockito.any(Pedido.class), org.mockito.Mockito.any(Ecommerce.class));
+
         ecommerce.cancelarPedido(pedidoMock);
         
         verify(pedidoMock).cancelar();
@@ -139,7 +146,7 @@ public class EcommerceTestCase {
     @Test
     public void testCancelarPedidoConOtroEnvioReponeStockDeDepositoGeneral() {
         Pedido pedidoMock = mock(Pedido.class);
-        MetodoDeEnvio otroEnvioMock = mock(MetodoDeEnvio.class);
+        EnvioEstandar otroEnvioMock = mock(EnvioEstandar.class);
         LineaDePedido lineaMock = mock(LineaDePedido.class);
         
         when(pedidoMock.getMetodoDeEnvio()).thenReturn(otroEnvioMock);
@@ -147,6 +154,8 @@ public class EcommerceTestCase {
         when(lineaMock.getItem()).thenReturn(itemMock);
         when(lineaMock.getCantidad()).thenReturn(2);
         
+        org.mockito.Mockito.doCallRealMethod().when(otroEnvioMock).procesarReposicionDeStock(org.mockito.Mockito.any(Pedido.class), org.mockito.Mockito.any(Ecommerce.class));
+
         ecommerce.cancelarPedido(pedidoMock);
         
         verify(pedidoMock).cancelar();

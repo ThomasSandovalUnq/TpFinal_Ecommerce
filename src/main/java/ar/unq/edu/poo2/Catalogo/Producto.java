@@ -77,5 +77,7 @@ public class Producto extends ItemCatalogo {
 	    return 0.0f; 
 	}
 	
-	
+	public boolean tieneCategoria(String categoria) {
+	    return this.categoria != null && this.categoria.toLowerCase().equals(categoria.toLowerCase());
+	}
 }

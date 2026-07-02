@@ -21,4 +21,7 @@ public class Enviado extends EstadoBase {
         pedido.setEstado(new Cancelado());
         pedido.notificarObservers(estadoViejo, pedido.getEstado());
     }
+
+    @Override
+    public boolean esEnviado() { return true; }
 }
